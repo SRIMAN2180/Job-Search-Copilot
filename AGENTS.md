@@ -78,6 +78,9 @@ Must match exactly: `wishlist`, `applied`, `interviewing`, `offer`, `rejected`. 
 
 ### Done
 
+- Improved generate route: detailed cover letter prompt (300+ words, 4-5 paragraph structure, tone/format requirements), increased `max_tokens` from 4096 to 8192, added 120s AbortController timeout to prevent hanging
+- Increased cover letter textarea from 6 to 14 rows and company brief textarea from 6 to 10 rows in JobDetailModal for better readability without scrolling
+- Added loading message during kit generation ("30–60 seconds depending on model")
 - Created two opencode sub-agents for the project: `code-reviewer` (bugs, quality, types) and `security-reviewer` (vulnerabilities, data exposure, API key safety) — defined in `.opencode/agent/` with `edit: deny` permission
 - Project-level `opencode.json` created with `$schema` and `instructions: ["AGENTS.md"]`
 - Company extraction moved from frontend to backend job-search API — returns `company` field per result

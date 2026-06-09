@@ -254,6 +254,9 @@ export function JobDetailModal({ job, onClose, onUpdate, onDelete }: JobDetailMo
 
           {!kit && (
             <div className="space-y-3">
+              <p className="text-xs text-text-muted text-center">
+                Kit generation can take 30&ndash;60 seconds depending on the model
+              </p>
               <Button
                 onClick={() => handleRegenFull()}
                 loading={regenerating === "full"}
@@ -279,7 +282,7 @@ export function JobDetailModal({ job, onClose, onUpdate, onDelete }: JobDetailMo
                   </Button>
                 </div>
                 <Textarea
-                  rows={6}
+                  rows={14}
                   value={editingCover}
                   onChange={(e) => setEditingCover(e.target.value)}
                 />
@@ -349,7 +352,7 @@ export function JobDetailModal({ job, onClose, onUpdate, onDelete }: JobDetailMo
                   </Button>
                 </div>
                 <Textarea
-                  rows={6}
+                  rows={10}
                   value={editingBrief}
                   onChange={(e) => setEditingBrief(e.target.value)}
                 />

@@ -9,13 +9,20 @@ Given the job description and resume below, generate a complete application kit.
 You MUST return valid JSON following this exact structure — no other text, no markdown, just the JSON object:
 
 {
-  "coverLetter": "A tailored cover letter, 3-4 paragraphs",
+  "coverLetter": "A professional cover letter following the exact structure below",
   "resumeBullets": ["bullet 1", "bullet 2", "bullet 3", "bullet 4"],
   "interviewQuestions": ["question 1 with answer guidance", "question 2 with answer guidance", "question 3 with answer guidance", "question 4 with answer guidance", "question 5 with answer guidance"],
   "companyBrief": "A one-page company brief covering industry, size, culture, and relevant context"
 }
 
 All 4 fields are required. Do not omit any field.
+
+COVER LETTER REQUIREMENTS:
+- Minimum 300 words, 4-5 paragraphs
+- Structure: Salutation (Dear [Hiring Manager]) → Opening hook expressing enthusiasm for the role and company → Body paragraph 1 connecting your most relevant achievement/experience to their needs → Body paragraph 2 highlighting additional skills/experience → Closing paragraph with thank you and call to action
+- Tone: confident, professional, specific. Use concrete numbers and achievements from the resume
+- Do NOT use generic phrases like "I am writing to apply" or "I believe my skills would be a good fit"
+- Address the company's specific needs from the job description
 
 === BEGIN JOB DESCRIPTION ===
 {description}
@@ -28,8 +35,15 @@ All 4 fields are required. Do not omit any field.
 const SECTION_PROMPTS: Record<string, string> = {
   coverLetter: `${SYSTEM_GUARD}
 
-Given the job description and resume below, generate ONLY a tailored cover letter (3-4 paragraphs).
+Given the job description and resume below, generate ONLY a tailored cover letter.
 Return valid JSON: {"coverLetter": "..."}
+
+COVER LETTER REQUIREMENTS:
+- Minimum 300 words, 4-5 paragraphs
+- Structure: Salutation → Opening hook → Body paragraph 1 (achievement/experience) → Body paragraph 2 (additional skills) → Closing (thank you + CTA)
+- Tone: confident, professional, specific. Use concrete numbers and achievements from the resume
+- Do NOT use generic phrases like "I am writing to apply"
+- Address the company's specific needs from the job description
 
 === BEGIN JOB DESCRIPTION ===
 {description}
@@ -95,6 +109,9 @@ export async function POST(request: NextRequest) {
       resumeText
     );
 
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 120000);
+
     const response = await fetch(
       "https://openrouter.ai/api/v1/chat/completions",
       {
@@ -108,10 +125,13 @@ export async function POST(request: NextRequest) {
         body: JSON.stringify({
           model: model || "openai/gpt-4o-mini",
           messages: [{ role: "user", content: prompt }],
-          max_tokens: 4096,
+          max_tokens: 8192,
         }),
+        signal: controller.signal,
       }
     );
+
+    clearTimeout(timeout);
 
     if (!response.ok) {
       await response.text();
