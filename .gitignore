@@ -1,0 +1,5 @@
+node_modules/
+.next/
+*.pdf
+.env.local
+.env

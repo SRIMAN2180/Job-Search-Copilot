@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #27272a transparent;
+  }
+  *::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  *::-webkit-scrollbar-thumb {
+    background-color: #27272a;
+    border-radius: 3px;
+  }
+
+  body {
+    @apply bg-page text-text-primary font-body antialiased;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  ::selection {
+    background-color: rgba(217, 119, 6, 0.3);
+    color: #fafafa;
+  }
+}
+
+@layer components {
+  .font-heading {
+    letter-spacing: 0.03em;
+  }
+
+}
