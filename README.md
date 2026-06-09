@@ -1,4 +1,4 @@
-# Pipeline — Job Application Tracker
+# Job Search Copilot
 
 A Kanban board for tracking job applications with AI-powered cover letters, resume tailoring, interview prep, and live job search. Built with Next.js 14, TypeScript, and Tailwind CSS.
 
